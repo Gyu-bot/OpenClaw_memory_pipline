@@ -4,7 +4,7 @@ import json
 import urllib.request
 from typing import Any
 
-from .embedder import fake_embedding
+from .embedder import get_embedding
 
 
 
@@ -29,7 +29,7 @@ def retrieve_memories(
     limit: int = 10,
     api_key: str | None = None,
 ) -> list[dict[str, Any]]:
-    vector = fake_embedding(query)
+    vector = get_embedding(query)
     payload = {
         "vector": vector,
         "limit": limit,

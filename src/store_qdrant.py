@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+import hashlib
 import json
-import time
 import urllib.request
 from typing import Any
 
@@ -27,6 +27,7 @@ def upsert_points(qdrant_url: str, collection: str, points: list[dict[str, Any]]
     return _request("PUT", url, {"points": points}, api_key)
 
 
+
 def delete_points_by_filter(qdrant_url: str, collection: str, qfilter: dict[str, Any], api_key: str | None = None) -> dict[str, Any]:
     url = f"{qdrant_url.rstrip('/')}/collections/{collection}/points/delete"
     return _request("POST", url, {"filter": qfilter}, api_key)
@@ -43,5 +44,6 @@ def health_check(qdrant_url: str) -> bool:
 
 
 
-def new_point_id() -> int:
-    return int(time.time() * 1000)
+def deterministic_point_id(user_id: str, canonical_key: str, value: str) -> str:
+    raw = f"{user_id}|{canonical_key}|{value}".encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()[:32]

@@ -10,7 +10,7 @@ from src.validator import validate_memories
 
 
 def test_phase2_local_flow():
-    text = "브리핑은 템플릿 말고 친근하게 해줘"
+    text = "브리핑은 템플릿 말고 친근하게 해줘, 기억해"
     ext = extract_candidates(text)
     assert ext["candidates"], "extractor should produce at least one candidate"
 

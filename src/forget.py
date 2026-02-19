@@ -5,6 +5,7 @@ import json
 
 from .audit_log import append_audit
 from .config import load_config
+from .fallback_store import delete_fallback_by_key, delete_fallback_by_user
 from .store_qdrant import delete_points_by_filter
 
 
@@ -18,8 +19,9 @@ def forget_by_key(user_id: str, canonical_key: str) -> dict:
         ]
     }
     resp = delete_points_by_filter(cfg.qdrant_url, cfg.qdrant_collection, qfilter, cfg.qdrant_api_key)
-    append_audit("forget.key", {"user_id": user_id, "canonical_key": canonical_key, "resp": resp})
-    return resp
+    fb_removed = delete_fallback_by_key(user_id=user_id, canonical_key=canonical_key)
+    append_audit("forget.key", {"user_id": user_id, "canonical_key": canonical_key, "resp": resp, "fallback_removed": fb_removed})
+    return {"qdrant": resp, "fallback_removed": fb_removed}
 
 
 
@@ -27,8 +29,9 @@ def forget_all_user(user_id: str) -> dict:
     cfg = load_config()
     qfilter = {"must": [{"key": "user_id", "match": {"value": user_id}}]}
     resp = delete_points_by_filter(cfg.qdrant_url, cfg.qdrant_collection, qfilter, cfg.qdrant_api_key)
-    append_audit("forget.user", {"user_id": user_id, "resp": resp})
-    return resp
+    fb_removed = delete_fallback_by_user(user_id=user_id)
+    append_audit("forget.user", {"user_id": user_id, "resp": resp, "fallback_removed": fb_removed})
+    return {"qdrant": resp, "fallback_removed": fb_removed}
 
 
 

@@ -33,12 +33,12 @@
 
 ## Next Top 3
 
-1. OpenAI embedding 실연동
-   - `src/embedder.py` fake embedding -> 실제 API 호출 전환
-2. OpenClaw 통합 PoC(Shadow mode)
-   - write/read 훅 연결 및 실대화 영향 없는 병행 검증
-3. 품질/운영 검증
-   - 중복 제거, recency 강화, token budget 정밀화
+1. 기존 메모리 시스템 연동 구현
+   - `memory/YYYY-MM-DD.md` 입력 기반 daily review 경로 추가
+2. Shadow mode 통합 시작
+   - OpenClaw write/read 훅 연결(실답변 비영향) + 품질 로그 수집
+3. 남은 P1~P3 핵심
+   - HTTP/TLS 리스크 정리, 민감정규식 정밀화, legacy 데이터 정리/마이그레이션
 
 ## Risks / Decisions Pending
 

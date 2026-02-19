@@ -65,6 +65,51 @@
   - query "브리핑 톤 기억" returned stored memory
   - debug output includes score/final_score and payload
 
+### Realtime extractor hardening + policy externalization
+- Reworked `src/extractor.py` to trigger-based realtime behavior:
+  - save candidates only when explicit memory intent trigger is present
+  - block storage when negative triggers are detected
+  - parse target text from `trigger: content` and trailing trigger forms
+  - minimum information filter to reject empty/low-value memory intents
+- Externalized extractor rules to `policy/extractor_policy.yaml`
+  - positive/negative triggers, sensitive hints, min length, defaults
+- Added trigger-focused tests:
+  - `tests/test_extractor_triggers.py`
+
+### Recency scoring + read dedup
+- Implemented recency-aware reranking in `src/reranker.py`
+  - exponential time decay with configurable half-life
+  - final score now combines relevance + confidence + recency
+- Added read-time memory dedup in `src/pipeline_read.py`
+- Added config field `MEMORY_RECENCY_HALF_LIFE_DAYS`
+  - reflected in `.env.example`
+- Added/updated tests in `tests/test_phase3_local.py`
+
+### Embedding + cache integration
+- Replaced fake-only embedding path with real embedding integration:
+  - `src/embedder.py` now calls OpenAI Embeddings API when `OPENAI_API_KEY` is set
+  - deterministic fallback embedding retained for no-key/dev scenarios
+- Added embedding cache:
+  - `src/embedding_cache.py`
+  - cache key: `sha256(model::text)`
+  - store: `data/embedding_cache.json` (gitignored)
+- Updated pipelines to use `get_embedding()`:
+  - `src/pipeline_write.py`
+  - `src/retriever.py`
+- Verified write/read demos after integration
+
+### P0 hotfixes + integration readiness updates
+- Fixed P0:
+  - point ID collision prevention via deterministic ID (`user_id|canonical_key|value` hash)
+  - forget now deletes fallback store records as well
+  - `read_fallback()` now filters expired records immediately
+  - Qdrant upsert exceptions now trigger fallback write path
+- Added integration-safe controls:
+  - audit log payload whitelist sanitization
+  - config-driven `MEMORY_TOP_K`, `MEMORY_MAX_INJECT_TOKENS`
+  - feature flags wired: `MEMORY_ENABLE_WRITE`, `MEMORY_ENABLE_READ`
+  - basic input validation in write/read pipeline entrypoints
+
 ### Phase 4 progress (operational safeguards)
 - Implemented:
   - `src/audit_log.py` (jsonl audit trail)

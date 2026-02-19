@@ -1,0 +1,41 @@
+version: 1
+positive_triggers:
+  - 기억해
+  - 기억해줘
+  - 기억
+  - 메모해
+  - 저장해
+  - 잊지마
+  - remember this
+  - remember
+negative_triggers:
+  - 기억하지마
+  - 기억하지 마
+  - 저장하지마
+  - 저장하지 마
+  - 메모하지마
+  - 메모하지 마
+  - 기억할 필요 없어
+  - 저장할 필요 없어
+  - don't remember
+  - do not remember
+sensitive_hints:
+  - 비밀번호
+  - 토큰
+  - api key
+  - api_key
+  - 패스워드
+  - 주민번호
+insufficient_values:
+  - 이거
+  - 이거만
+  - 이거기억
+  - 이거기억해
+  - 기억
+  - 메모
+  - 저장
+min_compact_length: 6
+max_value_length: 500
+default_type: task_rule
+default_key: explicit_memory_note
+default_confidence: 0.95

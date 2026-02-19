@@ -1,7 +1,7 @@
 # STATUS
 
 - Updated: 2026-02-19 UTC
-- Current Phase: **1 완료 / 2 준비됨**
+- Current Phase: **4 완료 (OpenClaw 직접 통합 전 단계 완료)**
 
 ## Completed
 
@@ -33,12 +33,12 @@
 
 ## Next Top 3
 
-1. `src/extractor.py` 구현
-   - 입력 텍스트 -> schema 준수 `candidates` JSON 출력
-2. `src/normalizer.py` 구현
-   - canonical key 맵핑 + 시간/표현 정규화
-3. `src/validator.py` + `src/pipeline_write.py` 구현
-   - 민감정보/신뢰도 필터 후 Qdrant upsert
+1. OpenAI embedding 실연동
+   - `src/embedder.py` fake embedding -> 실제 API 호출 전환
+2. OpenClaw 통합 PoC(Shadow mode)
+   - write/read 훅 연결 및 실대화 영향 없는 병행 검증
+3. 품질/운영 검증
+   - 중복 제거, recency 강화, token budget 정밀화
 
 ## Risks / Decisions Pending
 

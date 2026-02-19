@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["candidates"],
+  "properties": {
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "key", "value", "confidence"],
+        "properties": {
+          "type": {"type": "string", "enum": ["preference", "profile", "project_state", "task_rule", "do_not_store"]},
+          "key": {"type": "string", "minLength": 1},
+          "value": {"type": "string", "minLength": 1},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "evidence": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

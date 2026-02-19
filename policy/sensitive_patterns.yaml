@@ -1,0 +1,10 @@
+version: 1
+patterns:
+  - name: openai_api_key
+    regex: "sk-[A-Za-z0-9]{20,}"
+  - name: generic_token
+    regex: "(?i)(api[_-]?key|token|password|passwd)\s*[:=]\s*[^\s]+"
+  - name: korean_rrn
+    regex: "\b\d{6}-?[1-4]\d{6}\b"
+  - name: credit_card_like
+    regex: "\b(?:\d[ -]*?){13,19}\b"

@@ -1,0 +1,16 @@
+version: 1
+allowed_types:
+  - preference
+  - profile
+  - project_state
+  - task_rule
+blocked_types:
+  - do_not_store
+min_confidence: 0.75
+ttl_days:
+  preference: null
+  profile: null
+  project_state: 30
+  task_rule: 14
+max_inject_tokens: 1200
+top_k: 6

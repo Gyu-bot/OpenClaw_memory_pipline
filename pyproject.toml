@@ -1,0 +1,9 @@
+[project]
+name = "memory-pipeline"
+version = "0.1.0"
+description = "Memory automation pipeline"
+requires-python = ">=3.11"
+dependencies = [
+  "jsonschema>=4.22.0",
+  "pyyaml>=6.0.1",
+]
